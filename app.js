@@ -5,17 +5,21 @@ const path = require('path');
 const expressSession = require('express-session');
 const flash = require ('connect-flash');
 
-app.use(express.static(path.join(__dirname, 'public')));
+require('dotenv').config();
 
+const db = require("./config/mongoose-connection");
+
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const indexRouter = require('./routes/index');
 const ownersRouter = require('./routes/ownersRouter');
 const usersRouter = require('./routes/usersRouter');
 const productsRouter = require('./routes/productsRouter');
 
-require('dotenv').config();
 
-const db = require("./config/mongoose-connection");
+
+
 
 
 app.use(express.urlencoded({extended:true}));

@@ -68,6 +68,47 @@ module.exports.loginUser = async (req,res) => {
         req.flash('error', 'An error occurred during login.');
         res.redirect('/');
     }};
+module.exports.changepasswordGet =  (req,res) => {
+    const messages = {
+        success: req.flash('success'),
+        error: req.flash('error')
+    };
+    res.render("change-password",{ messages});
+    };
+
+module.exports.changepasswordPost = async (req, res) => {
+        try {
+            const { currentPassword, newPassword, confirmPassword } = req.body;
+    
+            if (newPassword !== confirmPassword) {
+                req.flash('error', 'Passwords do not match.');
+                return res.redirect('/users/change-password');
+            }
+    
+            const user = await userModel.findById(req.user._id);
+            if (!user) {
+                req.flash('error', 'User not found.');
+                return res.redirect('/users/change-password');
+            }
+    
+            const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+            if (!passwordMatch) {
+                req.flash('error', 'Incorrect current password.');
+                return res.redirect('/users/change-password');
+            }
+    
+            const hashedPassword = await bcrypt.hash(newPassword, 10);
+            user.password = hashedPassword;
+            await user.save();
+    
+            req.flash('success', 'Password changed successfully!');
+            res.redirect('/users/myaccount');
+        } catch (error) {
+            req.flash('error', 'An error occurred while changing the password.');
+            res.redirect('/users/change-password');
+        }
+    };
+
 
 module.exports.logout = (req,res) =>{
     res.cookie("token", "");

@@ -6,6 +6,8 @@ const {registerUser,
         loginUser,
         logout,
         account,
+        changepasswordGet,
+        changepasswordPost,
         } = require("../controllers/authController");
 
 router.get('/', (req,res) => {
@@ -31,6 +33,9 @@ router.get('/myaccount', isLoggedIn, async (req, res) => {
         res.redirect("/");
     }
 });
+
+router.get('/change-password',isLoggedIn,changepasswordGet)
+router.post('/change-password',isLoggedIn,changepasswordPost)
 
 router.get('/logout', logout);
 
