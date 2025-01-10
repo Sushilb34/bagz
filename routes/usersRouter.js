@@ -8,6 +8,11 @@ const {registerUser,
         account,
         changepasswordGet,
         changepasswordPost,
+        forgotpasswordGet,
+        forgotpasswordPost,
+        resetpasswordGet,
+        resetpasswordPost,
+        
         } = require("../controllers/authController");
 
 router.get('/', (req,res) => {
@@ -37,6 +42,16 @@ router.get('/myaccount', isLoggedIn, async (req, res) => {
 router.get('/change-password',isLoggedIn,changepasswordGet)
 router.post('/change-password',isLoggedIn,changepasswordPost)
 
+router.get('/forgot-password',forgotpasswordGet)
+router.post('/forgot-password',forgotpasswordPost)
+
+
+router.get('/reset-password/:token',resetpasswordGet);
+router.post('/reset-password/:token',resetpasswordPost);
+
+
 router.get('/logout', logout);
+
+
 
 module.exports = router;

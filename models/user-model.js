@@ -13,6 +13,8 @@ const userSchema = mongoose.Schema({
         type: Array,
         default: []
     },
+    resetToken: String,
+    resetTokenExpiration: Date,
     contact:Number,
     picture: String,
 });

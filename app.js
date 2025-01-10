@@ -18,10 +18,6 @@ const usersRouter = require('./routes/usersRouter');
 const productsRouter = require('./routes/productsRouter');
 
 
-
-
-
-
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(cookieParser());
