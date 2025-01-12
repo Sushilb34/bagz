@@ -1,4 +1,5 @@
 const userModel = require ('../models/user-model');
+const validator = require ('validator');
 const bcrypt = require ('bcrypt');
 const crypto = require('crypto');
 const { generateToken } = require('../utils/generateToken');
@@ -9,6 +10,10 @@ module.exports.registerUser = async (req,res) => {
         let { email,password,fullname } = req.body;
 
     let user = await userModel.findOne({ email: email});
+    if (!validator.isEmail(email)) {
+        req.flash('error', 'Invalid email format.');
+        return res.redirect('/');
+    }
 if (user) {
     req.flash('error', 'User with this email already exists.');
     return res.redirect('/');
